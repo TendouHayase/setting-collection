@@ -1,2 +1,3 @@
 inoremap jj <Esc>
+vnoremap jj <Esc>
 set handler <C-s> a:ide
