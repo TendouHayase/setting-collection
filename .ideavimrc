@@ -1,3 +1,6 @@
 inoremap jj <Esc>
 vnoremap jj <Esc>
 set handler <C-s> a:ide
+set clipboard=unnamedplus
+set clipboard+=ideaput
+set keep-english-in-normal-and-restore-in-insert
