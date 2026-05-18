@@ -1,2 +1,4 @@
 inoremap jj <Esc>
 set handler <C-s> a:ide
+set clipboard=unnamedplus
+set clipboard+=ideaput
