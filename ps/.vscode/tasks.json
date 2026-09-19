@@ -4,7 +4,7 @@
     {
       "type": "cppbuild",
       "label": "g++: debug build active file",
-      "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+      "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
       "args": [
         "-std=c++23",
         "-g3",
@@ -30,7 +30,7 @@
     {
       "type": "cppbuild",
       "label": "g++: debug build active file (checked STL)",
-      "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+      "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
       "args": [
         "-std=c++23",
         "-g3",
