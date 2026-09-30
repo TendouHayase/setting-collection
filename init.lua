@@ -419,7 +419,7 @@ vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-S-z>", "<C-r>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-S-z>", "<C-o><C-r>", { noremap = true, silent = true })
 
-vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
 
 if is_vscode then
   local vscode = require("vscode")
