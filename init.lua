@@ -348,6 +348,17 @@ if not is_vscode then
       vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
+      -- [수정 16][수정 17] 호버/진단은 K에서만 표시
+      --   현재 줄에 진단이 있으면 진단 float, 없으면 LSP 호버
+      vim.keymap.set("n", "K", function()
+        local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+        if #vim.diagnostic.get(0, { lnum = lnum }) > 0 then
+          vim.diagnostic.open_float(nil, { scope = "line" })
+        else
+          vim.lsp.buf.hover()
+        end
+      end, opts)
+
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
       if client and client:supports_method("textDocument/inlayHint") then
         vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
@@ -371,17 +382,7 @@ if not is_vscode then
   vim.o.mouse = "a"
   vim.o.mousemoveevent = true
 
-  -- [수정 5] 진단/hover CursorHold 핸들러를 하나로 통합
-  vim.api.nvim_create_autocmd("CursorHold", {
-    group = aug,
-    callback = function()
-      if #vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 }) > 0 then
-        vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
-      else
-        vim.lsp.buf.hover({ focus = false })
-      end
-    end,
-  })
+  -- [수정 16] CursorHold 자동 진단/호버 핸들러 제거 (K로 대체)
 
   vim.api.nvim_create_autocmd("VimLeavePre", {
     group = aug,
@@ -465,12 +466,11 @@ if is_vscode then
     })
   end, { desc = "Format and Save (VSCode)" })
 
-  vim.api.nvim_create_autocmd("CursorHold", {
-    group = vim.api.nvim_create_augroup("UserVSCode", { clear = true }),
-    callback = function()
-      vscode.action("editor.action.showHover")
-    end,
-  })
+  -- [수정 16] CursorHold 자동 호버 제거, K에서만 호버 표시
+  --          VSCode 호버 위젯은 진단(마커)과 타입 정보를 함께 표시함
+  vim.keymap.set("n", "K", function()
+    vscode.action("editor.action.showHover")
+  end, { desc = "Show Hover (VSCode)" })
 else
   vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "Show Line Diagnostics" })
   vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
